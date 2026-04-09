@@ -1,82 +1,96 @@
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { logoUri } from "../../data/campuses";
-import { colors, radii, shadows, spacing } from "../../theme";
+import { borders, colors, radii, signature, spacing, typography } from "../../theme";
 import { getCampusTheme } from "../../utils/auth";
 
 export default function BrandPanel({ campusKey, eyebrow, title, subtitle, children }) {
   const theme = getCampusTheme(campusKey);
 
   return (
-    <View style={[styles.panel, { backgroundColor: theme.panel }]}>
-      <View style={[styles.accent, { backgroundColor: theme.accent }]} />
-      <View style={styles.header}>
-        <View style={styles.textWrap}>
-          <Text style={[styles.eyebrow, { color: theme.accent }]}>{eyebrow}</Text>
+    <View style={styles.panel}>
+      <View style={styles.topBand} />
+      <View style={styles.topRow}>
+        <View style={styles.copy}>
+          {eyebrow ? <Text style={styles.eyebrow}>{eyebrow}</Text> : null}
           <Text style={styles.title}>{title}</Text>
-          <Text style={styles.subtitle}>{subtitle}</Text>
+          {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
         </View>
-        <View style={[styles.logoPlate, { borderColor: theme.accent }]}>
+        <View style={styles.logoWrap}>
           <Image source={{ uri: logoUri }} style={styles.logo} resizeMode="contain" />
         </View>
       </View>
-      {children}
+      <View style={[styles.goldRule, { backgroundColor: theme.accent }]} />
+      {children ? <View style={styles.body}>{children}</View> : null}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   panel: {
+    backgroundColor: colors.bg.inverse,
     borderRadius: radii.lg,
     padding: spacing.lg,
-    overflow: "hidden",
-    ...shadows.card,
   },
-  accent: {
+  topBand: {
     position: "absolute",
     top: 0,
     left: 0,
     right: 0,
-    height: 6,
+    height: signature.headerBandHeight,
+    backgroundColor: colors.signature.major,
   },
-  header: {
+  topRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
+    gap: spacing.md,
+    marginTop: spacing.sm,
   },
-  textWrap: {
+  copy: {
     flex: 1,
-    paddingRight: spacing.md,
   },
   eyebrow: {
-    fontSize: 12,
+    color: colors.accent.default,
+    fontSize: typography.sizes.micro,
+    fontWeight: "700",
     textTransform: "uppercase",
-    fontWeight: "800",
     letterSpacing: 1,
-    marginBottom: 8,
-  },
-  title: {
-    color: colors.white,
-    fontSize: 26,
-    fontWeight: "900",
     marginBottom: spacing.xs,
   },
-  subtitle: {
-    color: "#d0d0d0",
-    fontSize: 14,
-    lineHeight: 21,
+  title: {
+    color: colors.text.inverse,
+    fontSize: typography.sizes.title,
+    fontWeight: "800",
+    lineHeight: 30,
   },
-  logoPlate: {
-    width: 72,
-    height: 72,
-    borderRadius: 22,
-    backgroundColor: "rgba(255,255,255,0.07)",
-    borderWidth: 1,
+  subtitle: {
+    color: "rgba(255,255,255,0.76)",
+    fontSize: typography.sizes.meta,
+    lineHeight: 19,
+    marginTop: spacing.xs,
+  },
+  logoWrap: {
+    width: 58,
+    height: 58,
+    borderRadius: radii.sm,
+    backgroundColor: colors.white,
     alignItems: "center",
     justifyContent: "center",
   },
   logo: {
-    width: 50,
-    height: 50,
+    width: 34,
+    height: 34,
+  },
+  goldRule: {
+    width: 64,
+    height: signature.majorRuleHeight,
+    borderRadius: radii.pill,
+    marginTop: spacing.md,
+  },
+  body: {
+    marginTop: spacing.md,
+    paddingTop: spacing.md,
+    borderTopWidth: borders.hairline,
+    borderTopColor: colors.border.inverse,
   },
 });

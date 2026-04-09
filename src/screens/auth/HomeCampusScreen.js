@@ -3,7 +3,7 @@ import { StyleSheet, Text } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useAppData } from "../../context/AppContext";
 import { branchOptions, campusData } from "../../data/campuses";
-import { colors } from "../../theme";
+import { colors, spacing, typography } from "../../theme";
 import AppScreen from "../../components/common/AppScreen";
 import BrandPanel from "../../components/common/BrandPanel";
 import ScreenShell from "../../components/common/ScreenShell";
@@ -18,15 +18,13 @@ export default function HomeCampusScreen({ navigation }) {
       <ScreenShell>
         <BrandPanel
           campusKey={homeCampusKey}
-          eyebrow="Welcome"
-          title="Choose your home campus"
-          subtitle="We will use this as your default T.I.P. access point before sign-in."
+          eyebrow="Initial Setup"
+          title="Select your home campus"
+          subtitle="This will be used as your default campus before sign-in."
         />
 
-        <Text style={styles.pageTitle}>Campus setup</Text>
         <Text style={styles.pageLead}>
-          Pick the campus you are primarily enrolled in. Cross-enrollees can choose a different
-          access campus in the next step.
+          Choose the campus where you are primarily enrolled or assigned.
         </Text>
 
         {branchOptions.map((option) => {
@@ -55,14 +53,10 @@ export default function HomeCampusScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  pageTitle: {
-    fontSize: 28,
-    fontWeight: "900",
-    color: colors.ink,
-  },
   pageLead: {
-    fontSize: 15,
-    lineHeight: 23,
-    color: colors.gray900,
+    fontSize: typography.sizes.body,
+    lineHeight: 22,
+    color: colors.text.secondary,
+    marginTop: -spacing.sm,
   },
 });

@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
-import { colors, radii, spacing } from "../../theme";
+import { borders, colors, radii, spacing, typography } from "../../theme";
 
 export default function AuthInput(props) {
   const { label, value, onChangeText, placeholder, keyboardType, secureTextEntry, rightAdornment, maxLength } = props;
@@ -13,7 +13,7 @@ export default function AuthInput(props) {
           value={value}
           onChangeText={onChangeText}
           placeholder={placeholder}
-          placeholderTextColor={colors.gray700}
+          placeholderTextColor={colors.text.muted}
           keyboardType={keyboardType}
           secureTextEntry={secureTextEntry}
           maxLength={maxLength}
@@ -30,25 +30,27 @@ const styles = StyleSheet.create({
     marginTop: spacing.md,
   },
   label: {
-    fontSize: 13,
-    fontWeight: "800",
-    color: colors.gray900,
+    fontSize: typography.sizes.micro,
+    fontWeight: "700",
+    color: colors.text.muted,
     marginBottom: spacing.xs,
+    textTransform: "uppercase",
+    letterSpacing: 1,
   },
   shell: {
     position: "relative",
     justifyContent: "center",
   },
   input: {
-    backgroundColor: colors.gray100,
-    borderWidth: 1,
-    borderColor: colors.gray300,
+    backgroundColor: colors.bg.surface,
+    borderWidth: borders.soft,
+    borderColor: colors.border.strong,
     borderRadius: radii.sm,
     paddingHorizontal: spacing.md,
     paddingVertical: 14,
     paddingRight: 48,
-    fontSize: 15,
-    color: colors.ink,
+    fontSize: typography.sizes.body,
+    color: colors.text.primary,
   },
   adornment: {
     position: "absolute",

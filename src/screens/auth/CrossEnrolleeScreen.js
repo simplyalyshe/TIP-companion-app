@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useAppData } from "../../context/AppContext";
 import { campusData } from "../../data/campuses";
-import { colors, radii, spacing } from "../../theme";
+import { colors, radii, spacing, typography } from "../../theme";
 import AppScreen from "../../components/common/AppScreen";
 import BrandPanel from "../../components/common/BrandPanel";
 import ScreenShell from "../../components/common/ScreenShell";
@@ -28,25 +28,24 @@ export default function CrossEnrolleeScreen({ navigation }) {
         <BrandPanel
           campusKey={homeCampusKey}
           eyebrow="Access Check"
-          title="Are you a cross-enrolee?"
-          subtitle={`Your home campus is set to ${branch.name}.`}
+          title="Cross-enrollee access"
+          subtitle={`Home campus on file: ${branch.name}.`}
         />
 
-        <Text style={styles.pageTitle}>Campus access preference</Text>
         <Text style={styles.pageLead}>
-          Let us know whether you need access to another campus for this session.
+          Confirm whether you need access to another campus during this session.
         </Text>
 
         <ChoiceCard
-          title="No, I will use my home campus"
-          description="You will sign in directly to your default campus and campus switching will stay locked."
+          title="Use my home campus"
+          description="Continue directly with your default campus access."
           icon="school-outline"
           selected={selection === "no"}
           onPress={() => setSelection("no")}
         />
         <ChoiceCard
-          title="Yes, I am cross-enrolled"
-          description="You can pick the campus to access now and switch campuses later from your profile."
+          title="I am cross-enrolled"
+          description="Choose another campus for this session and allow switching later."
           icon="swap-horizontal"
           selected={selection === "yes"}
           onPress={() => setSelection("yes")}
@@ -57,7 +56,7 @@ export default function CrossEnrolleeScreen({ navigation }) {
           disabled={!selection}
           style={[styles.primaryButton, !selection && styles.buttonDisabled]}
         >
-          <Text style={styles.primaryButtonText}>Continue to sign-in</Text>
+          <Text style={styles.primaryButtonText}>Continue</Text>
         </Pressable>
       </ScreenShell>
     </AppScreen>
@@ -65,29 +64,24 @@ export default function CrossEnrolleeScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  pageTitle: {
-    fontSize: 28,
-    fontWeight: "900",
-    color: colors.ink,
-  },
   pageLead: {
-    fontSize: 15,
-    lineHeight: 23,
-    color: colors.gray900,
+    fontSize: typography.sizes.body,
+    lineHeight: 22,
+    color: colors.text.secondary,
+    marginTop: -spacing.sm,
   },
   primaryButton: {
-    backgroundColor: colors.ink,
+    backgroundColor: colors.bg.inverse,
     borderRadius: radii.pill,
     paddingVertical: 15,
     alignItems: "center",
-    marginTop: spacing.md,
   },
   primaryButtonText: {
-    color: colors.white,
-    fontWeight: "800",
-    fontSize: 15,
+    color: colors.text.inverse,
+    fontWeight: "700",
+    fontSize: typography.sizes.body,
   },
   buttonDisabled: {
-    opacity: 0.6,
+    opacity: 0.45,
   },
 });

@@ -1,30 +1,44 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { colors, radii, shadows, spacing } from "../../theme";
+import { borders, colors, spacing, typography } from "../../theme";
 
-export default function SectionCard({ title, children, compact, style }) {
+export default function SectionCard({ title, eyebrow, children, compact, style }) {
   return (
-    <View style={[styles.card, compact && styles.compactCard, style]}>
-      {title ? <Text style={styles.cardTitle}>{title}</Text> : null}
+    <View style={[styles.section, compact && styles.compactSection, style]}>
+      {(eyebrow || title) ? (
+        <View style={styles.header}>
+          {eyebrow ? <Text style={styles.eyebrow}>{eyebrow}</Text> : null}
+          {title ? <Text style={styles.title}>{title}</Text> : null}
+        </View>
+      ) : null}
       {children}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  card: {
-    backgroundColor: colors.white,
-    borderRadius: radii.md,
-    padding: spacing.lg,
-    ...shadows.card,
+  section: {
+    paddingBottom: spacing.md,
+    borderBottomWidth: borders.hairline,
+    borderBottomColor: colors.border.soft,
   },
-  compactCard: {
-    paddingVertical: spacing.md,
+  compactSection: {
+    paddingBottom: spacing.sm,
   },
-  cardTitle: {
-    fontSize: 18,
+  header: {
+    marginBottom: spacing.sm,
+  },
+  eyebrow: {
+    color: colors.text.accent,
+    fontSize: typography.sizes.micro,
+    fontWeight: "700",
+    textTransform: "uppercase",
+    letterSpacing: 1,
+    marginBottom: 4,
+  },
+  title: {
+    color: colors.text.primary,
+    fontSize: typography.sizes.section,
     fontWeight: "800",
-    color: colors.ink,
-    marginBottom: spacing.md,
   },
 });

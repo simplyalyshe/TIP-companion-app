@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useAppData } from "../../context/AppContext";
 import { branchOptions, campusData } from "../../data/campuses";
-import { colors, radii, spacing } from "../../theme";
+import { colors, radii, spacing, typography } from "../../theme";
 import AppScreen from "../../components/common/AppScreen";
 import BrandPanel from "../../components/common/BrandPanel";
 import ScreenShell from "../../components/common/ScreenShell";
@@ -19,15 +19,13 @@ export default function SessionCampusScreen({ navigation }) {
       <ScreenShell>
         <BrandPanel
           campusKey={activeCampusKey}
-          eyebrow="Cross-Enrollee Access"
+          eyebrow="Session Access"
           title="Choose the campus for this session"
-          subtitle="Only cross-enrollees can switch this later from the profile tab."
+          subtitle={`Home campus remains ${homeCampus.name}.`}
         />
 
-        <Text style={styles.pageTitle}>Current access campus</Text>
         <Text style={styles.pageLead}>
-          Your home campus remains <Text style={styles.inlineStrong}>{homeCampus.name}</Text>. Pick
-          the campus you want this session to open with.
+          Select which campus workspace should open after sign-in.
         </Text>
 
         {branchOptions.map((option) => {
@@ -40,8 +38,8 @@ export default function SessionCampusScreen({ navigation }) {
               title={option.title}
               description={
                 option.key === homeCampusKey
-                  ? "Use your home campus for this session."
-                  : "Access the other campus as a cross-enrollee."
+                  ? "Use your registered home campus for this session."
+                  : "Open the alternate campus under cross-enrollee access."
               }
               address={campus.address}
               selected={activeCampusKey === option.key}
@@ -59,30 +57,21 @@ export default function SessionCampusScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  pageTitle: {
-    fontSize: 28,
-    fontWeight: "900",
-    color: colors.ink,
-  },
   pageLead: {
-    fontSize: 15,
-    lineHeight: 23,
-    color: colors.gray900,
-  },
-  inlineStrong: {
-    fontWeight: "800",
-    color: colors.ink,
+    fontSize: typography.sizes.body,
+    lineHeight: 22,
+    color: colors.text.secondary,
+    marginTop: -spacing.sm,
   },
   primaryButton: {
-    backgroundColor: colors.ink,
+    backgroundColor: colors.bg.inverse,
     borderRadius: radii.pill,
     paddingVertical: 15,
     alignItems: "center",
-    marginTop: spacing.md,
   },
   primaryButtonText: {
-    color: colors.white,
-    fontWeight: "800",
-    fontSize: 15,
+    color: colors.text.inverse,
+    fontWeight: "700",
+    fontSize: typography.sizes.body,
   },
 });

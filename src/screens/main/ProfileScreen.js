@@ -2,10 +2,9 @@ import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useAppData } from "../../context/AppContext";
 import { campusData } from "../../data/campuses";
-import { colors, radii, shadows, spacing } from "../../theme";
+import { borders, colors, radii, spacing, typography } from "../../theme";
 import AppScreen from "../../components/common/AppScreen";
 import ScreenShell from "../../components/common/ScreenShell";
-import SectionCard from "../../components/common/SectionCard";
 import DetailRow from "../../components/common/DetailRow";
 
 export default function ProfileScreen({ navigation }) {
@@ -20,7 +19,7 @@ export default function ProfileScreen({ navigation }) {
     setStudentId,
   } = useAppData();
   const branch = campusData[activeCampusKey];
-  const profile = branch.studentProfile;
+  const profile = campusData[homeCampusKey].studentProfile;
 
   function signOut() {
     setStudentId("");
@@ -36,37 +35,35 @@ export default function ProfileScreen({ navigation }) {
     }
 
     setActiveCampusKey(activeCampusKey === "qc" ? "manila" : "qc");
+    navigation.navigate("Home");
   }
 
   return (
     <AppScreen>
       <ScreenShell>
-        <View style={styles.profileHeader}>
-          <View style={styles.avatar}>
-            <Text style={styles.avatarText}>{profile.name.slice(0, 2).toUpperCase()}</Text>
-          </View>
-          <Text style={styles.profileName}>{profile.name}</Text>
-          <Text style={styles.profileBranch}>{branch.name}</Text>
+        <View style={styles.identitySection}>
+          <Text style={styles.eyebrow}>Profile</Text>
+          <Text style={styles.name}>{profile.name}</Text>
+          <Text style={styles.meta}>{campusData[homeCampusKey].name}</Text>
+          <Text style={styles.status}>Student record and campus access</Text>
         </View>
 
-        <SectionCard title="Student Information" compact>
-          <DetailRow label="Student ID" value={studentId || profile.studentId} />
+        <View style={styles.section}>
+          <Text style={styles.title}>Student Record</Text>
+          <DetailRow label="Student ID" value={studentId || profile.studentId} emphasize />
           <DetailRow label="Program" value={profile.program} />
           <DetailRow label="Year Level" value={profile.yearLevel} />
           <DetailRow label="Email" value={profile.email} isLast />
-        </SectionCard>
+        </View>
 
-        <SectionCard title="Access Settings" compact>
+        <View style={styles.section}>
+          <Text style={styles.title}>Campus Access</Text>
           <DetailRow label="Home Campus" value={campusData[homeCampusKey].name} />
           <DetailRow label="Current Campus" value={branch.name} />
-          <DetailRow
-            label="Cross-Enrollee Status"
-            value={isCrossEnrollee ? "Enabled" : "Home campus only"}
-            isLast
-          />
-        </SectionCard>
+          <DetailRow label="Cross-Enrollee Status" value={isCrossEnrollee ? "Enabled" : "Home campus only"} isLast />
+        </View>
 
-        <SectionCard title="Actions">
+        <View style={styles.actionsSection}>
           {isCrossEnrollee ? (
             <Pressable onPress={switchCampus} style={styles.secondaryButton}>
               <Text style={styles.secondaryButtonText}>Switch Campus</Text>
@@ -75,68 +72,78 @@ export default function ProfileScreen({ navigation }) {
           <Pressable onPress={signOut} style={styles.primaryButton}>
             <Text style={styles.primaryButtonText}>Sign Out</Text>
           </Pressable>
-        </SectionCard>
+        </View>
       </ScreenShell>
     </AppScreen>
   );
 }
 
 const styles = StyleSheet.create({
-  profileHeader: {
-    backgroundColor: colors.ink,
-    borderRadius: radii.lg,
-    padding: spacing.xl,
-    alignItems: "center",
-    ...shadows.card,
+  identitySection: {
+    paddingBottom: spacing.md,
+    borderBottomWidth: borders.hairline,
+    borderBottomColor: colors.border.soft,
   },
-  avatar: {
-    width: 88,
-    height: 88,
-    borderRadius: 28,
-    backgroundColor: colors.primary,
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: spacing.md,
+  eyebrow: {
+    color: colors.text.accent,
+    fontSize: typography.sizes.micro,
+    fontWeight: "700",
+    textTransform: "uppercase",
+    letterSpacing: 1,
+    marginBottom: spacing.xs,
   },
-  avatarText: {
-    color: colors.ink,
-    fontSize: 28,
-    fontWeight: "900",
+  name: {
+    color: colors.text.primary,
+    fontSize: typography.sizes.title,
+    fontWeight: "800",
   },
-  profileName: {
-    color: colors.white,
-    fontSize: 24,
-    fontWeight: "900",
-    textAlign: "center",
-  },
-  profileBranch: {
-    color: "#d6d6d6",
-    fontSize: 15,
+  meta: {
+    color: colors.text.secondary,
+    fontSize: typography.sizes.body,
     marginTop: spacing.xs,
-    textAlign: "center",
+  },
+  status: {
+    color: colors.text.muted,
+    fontSize: typography.sizes.meta,
+    marginTop: spacing.xs,
+  },
+  section: {
+    paddingBottom: spacing.md,
+    borderBottomWidth: borders.hairline,
+    borderBottomColor: colors.border.soft,
+  },
+  title: {
+    fontSize: typography.sizes.section,
+    fontWeight: "800",
+    color: colors.text.primary,
+    marginBottom: spacing.sm,
+  },
+  actionsSection: {
+    gap: spacing.sm,
+    paddingBottom: spacing.md,
   },
   secondaryButton: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors.bg.surface,
     borderRadius: radii.pill,
+    borderWidth: borders.soft,
+    borderColor: colors.border.strong,
     paddingVertical: 15,
     alignItems: "center",
-    marginTop: spacing.sm,
   },
   secondaryButtonText: {
-    color: colors.ink,
-    fontWeight: "800",
-    fontSize: 15,
+    color: colors.text.primary,
+    fontWeight: "700",
+    fontSize: typography.sizes.body,
   },
   primaryButton: {
-    backgroundColor: colors.ink,
+    backgroundColor: colors.bg.inverse,
     borderRadius: radii.pill,
     paddingVertical: 15,
     alignItems: "center",
-    marginTop: spacing.md,
   },
   primaryButtonText: {
-    color: colors.white,
-    fontWeight: "800",
-    fontSize: 15,
+    color: colors.text.inverse,
+    fontWeight: "700",
+    fontSize: typography.sizes.body,
   },
 });

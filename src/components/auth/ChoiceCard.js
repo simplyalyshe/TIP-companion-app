@@ -1,67 +1,56 @@
 import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { colors, radii, shadows, spacing } from "../../theme";
+import { borders, colors, radii, spacing, typography } from "../../theme";
 
 export default function ChoiceCard({ title, description, icon, selected, onPress }) {
   return (
     <Pressable onPress={onPress} style={[styles.card, selected && styles.cardSelected]}>
-      <View style={styles.iconWrap}>
-        <MaterialCommunityIcons
-          name={icon}
-          size={22}
-          color={selected ? colors.ink : colors.primaryDark}
-        />
+      <View style={styles.left}>
+        <MaterialCommunityIcons name={icon} size={20} color={selected ? colors.accent.strong : colors.text.secondary} />
+        <View style={styles.copy}>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.description}>{description}</Text>
+        </View>
       </View>
-      <View style={styles.copy}>
-        <Text style={styles.title}>{title}</Text>
-        <Text style={styles.description}>{description}</Text>
-      </View>
-      <MaterialCommunityIcons
-        name={selected ? "radiobox-marked" : "radiobox-blank"}
-        size={22}
-        color={selected ? colors.primaryDark : colors.gray700}
-      />
+      <MaterialCommunityIcons name={selected ? "radiobox-marked" : "radiobox-blank"} size={22} color={selected ? colors.accent.strong : colors.text.muted} />
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.bg.surface,
     borderRadius: radii.md,
-    borderWidth: 1,
-    borderColor: colors.gray300,
-    padding: spacing.lg,
+    borderWidth: borders.soft,
+    borderColor: colors.border.soft,
+    padding: spacing.md,
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
     gap: spacing.md,
-    ...shadows.card,
   },
   cardSelected: {
-    borderColor: colors.primaryDark,
-    backgroundColor: "#fff8e0",
+    borderColor: colors.accent.default,
   },
-  iconWrap: {
-    width: 46,
-    height: 46,
-    borderRadius: 16,
-    backgroundColor: "#fff4bf",
-    alignItems: "center",
-    justifyContent: "center",
+  left: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: spacing.sm,
   },
   copy: {
     flex: 1,
   },
   title: {
-    color: colors.ink,
-    fontSize: 16,
-    fontWeight: "800",
+    color: colors.text.primary,
+    fontSize: typography.sizes.body,
+    fontWeight: "700",
     marginBottom: 4,
   },
   description: {
-    color: colors.gray900,
-    fontSize: 14,
-    lineHeight: 21,
+    color: colors.text.secondary,
+    fontSize: typography.sizes.meta,
+    lineHeight: 19,
   },
 });

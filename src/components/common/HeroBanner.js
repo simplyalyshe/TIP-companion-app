@@ -1,20 +1,18 @@
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { logoUri } from "../../data/campuses";
-import { colors, radii, shadows, spacing } from "../../theme";
-import { getCampusTheme } from "../../utils/auth";
+import { borders, colors, radii, signature, spacing, typography } from "../../theme";
 
 export default function HeroBanner({ branch }) {
-  const theme = getCampusTheme(branch.id);
-
   return (
-    <View style={[styles.banner, { backgroundColor: theme.panel }]}>
-      <View style={styles.textWrap}>
-        <Text style={[styles.kicker, { color: theme.accent }]}>Campus Companion</Text>
+    <View style={styles.banner}>
+      <View style={styles.rail} />
+      <View style={styles.copy}>
+        <Text style={styles.kicker}>T.I.P. Campus Portal</Text>
         <Text style={styles.title}>{branch.name}</Text>
         <Text style={styles.subtitle}>{branch.subtitle}</Text>
       </View>
-      <View style={[styles.logoPlate, { backgroundColor: theme.surface }]}>
+      <View style={styles.logoWrap}>
         <Image source={{ uri: logoUri }} style={styles.logo} resizeMode="contain" />
       </View>
     </View>
@@ -23,44 +21,57 @@ export default function HeroBanner({ branch }) {
 
 const styles = StyleSheet.create({
   banner: {
-    borderRadius: radii.lg,
-    padding: spacing.lg,
     flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    ...shadows.card,
+    alignItems: "flex-start",
+    gap: spacing.md,
+    paddingBottom: spacing.md,
+    paddingLeft: spacing.md,
+    borderBottomWidth: borders.hairline,
+    borderBottomColor: colors.border.strong,
+    position: "relative",
   },
-  textWrap: {
+  rail: {
+    position: "absolute",
+    left: 0,
+    top: 0,
+    bottom: spacing.md,
+    width: signature.railWidth,
+    borderRadius: radii.pill,
+    backgroundColor: colors.signature.rail,
+  },
+  copy: {
     flex: 1,
-    paddingRight: spacing.md,
   },
   kicker: {
-    fontSize: 12,
-    fontWeight: "800",
+    color: colors.text.accent,
+    fontSize: typography.sizes.micro,
+    fontWeight: "700",
     textTransform: "uppercase",
-    marginBottom: 4,
     letterSpacing: 1,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "900",
-    color: colors.white,
     marginBottom: spacing.xs,
   },
-  subtitle: {
-    fontSize: 14,
-    lineHeight: 20,
-    color: "#d6d6d6",
+  title: {
+    color: colors.text.primary,
+    fontSize: typography.sizes.title,
+    fontWeight: "800",
+    lineHeight: 30,
   },
-  logoPlate: {
-    width: 92,
-    height: 92,
-    borderRadius: 26,
+  subtitle: {
+    color: colors.text.secondary,
+    fontSize: typography.sizes.meta,
+    lineHeight: 19,
+    marginTop: spacing.xs,
+  },
+  logoWrap: {
+    width: 52,
+    height: 52,
+    borderRadius: radii.sm,
+    backgroundColor: colors.bg.muted,
     alignItems: "center",
     justifyContent: "center",
   },
   logo: {
-    width: 64,
-    height: 64,
+    width: 30,
+    height: 30,
   },
 });

@@ -1,35 +1,41 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { colors, spacing } from "../../theme";
+import { borders, colors, spacing, typography } from "../../theme";
 
-export default function DetailRow({ label, value, isLast }) {
+export default function DetailRow({ label, value, isLast, emphasize }) {
   return (
     <View style={[styles.row, isLast && styles.rowLast]}>
       <Text style={styles.label}>{label}</Text>
-      <Text style={styles.value}>{value}</Text>
+      <Text style={[styles.value, emphasize && styles.valueEmphasize]}>{value}</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   row: {
-    paddingVertical: spacing.sm,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.gray100,
+    paddingVertical: spacing.sm + 2,
+    borderBottomWidth: borders.hairline,
+    borderBottomColor: colors.border.soft,
   },
   rowLast: {
     borderBottomWidth: 0,
   },
   label: {
-    fontSize: 12,
+    fontSize: typography.sizes.micro,
     textTransform: "uppercase",
-    letterSpacing: 0.7,
-    color: colors.gray700,
+    letterSpacing: 1,
+    color: colors.text.muted,
     marginBottom: 4,
+    fontWeight: "700",
   },
   value: {
-    fontSize: 15,
-    color: colors.ink,
-    fontWeight: "700",
+    fontSize: typography.sizes.body,
+    color: colors.text.primary,
+    fontWeight: "600",
+    lineHeight: 21,
+  },
+  valueEmphasize: {
+    color: colors.text.primary,
+    fontWeight: "800",
   },
 });

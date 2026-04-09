@@ -1,11 +1,10 @@
 import React from "react";
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { useAppData } from "../../context/AppContext";
 import { campusData } from "../../data/campuses";
-import { colors, spacing } from "../../theme";
+import { borders, colors, spacing, typography } from "../../theme";
 import AppScreen from "../../components/common/AppScreen";
 import ScreenShell from "../../components/common/ScreenShell";
-import SectionCard from "../../components/common/SectionCard";
 import DetailRow from "../../components/common/DetailRow";
 
 export default function AboutScreen() {
@@ -15,39 +14,46 @@ export default function AboutScreen() {
   return (
     <AppScreen>
       <ScreenShell>
-        <SectionCard title="About T.I.P.">
-          <Text style={styles.bodyText}>
-            Technological Institute of the Philippines is a private higher education institution
-            focused on engineering, technology, architecture, business, and the arts. It operates
-            campuses in Manila and Quezon City.
-          </Text>
-          <Text style={[styles.bodyText, styles.spacedText]}>{branch.about}</Text>
-        </SectionCard>
+        <View style={styles.section}>
+          <Text style={styles.eyebrow}>About T.I.P.</Text>
+          <Text style={styles.title}>Institution Overview</Text>
+          <Text style={styles.body}>{branch.about}</Text>
+        </View>
 
-        <SectionCard title="Campus Details" compact>
-          <DetailRow label="Campus" value={branch.name} />
+        <View style={styles.section}>
+          <Text style={styles.title}>Campus Information</Text>
+          <DetailRow label="Campus" value={branch.name} emphasize />
           <DetailRow label="Address" value={branch.address} />
           <DetailRow label="Campus Line" value={branch.phone} isLast />
-        </SectionCard>
-
-        <SectionCard title="Brand Story">
-          <Text style={styles.bodyText}>
-            The interface keeps T.I.P.'s black, gray, and yellow character, but applies it through
-            cleaner panels, focused accents, and a more professional student-facing layout.
-          </Text>
-        </SectionCard>
+        </View>
       </ScreenShell>
     </AppScreen>
   );
 }
 
 const styles = StyleSheet.create({
-  bodyText: {
-    fontSize: 15,
-    lineHeight: 22,
-    color: colors.gray900,
+  section: {
+    paddingBottom: spacing.md,
+    borderBottomWidth: borders.hairline,
+    borderBottomColor: colors.border.soft,
   },
-  spacedText: {
-    marginTop: spacing.md,
+  eyebrow: {
+    color: colors.text.accent,
+    fontSize: typography.sizes.micro,
+    fontWeight: "700",
+    textTransform: "uppercase",
+    letterSpacing: 1,
+    marginBottom: spacing.xs,
+  },
+  title: {
+    fontSize: typography.sizes.section,
+    fontWeight: "800",
+    color: colors.text.primary,
+    marginBottom: spacing.sm,
+  },
+  body: {
+    fontSize: typography.sizes.body,
+    lineHeight: 23,
+    color: colors.text.secondary,
   },
 });
