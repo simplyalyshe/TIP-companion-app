@@ -42,7 +42,10 @@ export default function HomeScreen() {
           <View style={styles.leadActionRow}>
             {leadActions.map((item) => (
               <Pressable key={item} style={styles.leadActionCard}>
-                <MaterialCommunityIcons name={quickLinkIcons[item] || "arrow-top-right"} size={22} color={colors.accent.strong} />
+                <View style={styles.leadActionTop}>
+                  <MaterialCommunityIcons name={quickLinkIcons[item] || "arrow-top-right"} size={22} color={colors.accent.strong} />
+                  <MaterialCommunityIcons name="arrow-top-right" size={18} color={colors.text.muted} />
+                </View>
                 <Text style={styles.leadActionText}>{item}</Text>
               </Pressable>
             ))}
@@ -53,6 +56,7 @@ export default function HomeScreen() {
               {supportActions.map((item) => (
                 <Pressable key={item} style={styles.supportActionChip}>
                   <Text style={styles.supportActionText}>{item}</Text>
+                  <MaterialCommunityIcons name="arrow-top-right" size={15} color={colors.text.secondary} />
                 </Pressable>
               ))}
             </View>
@@ -84,8 +88,11 @@ export default function HomeScreen() {
           </View>
           {branch.announcements.map((notice, index) => (
             <View key={notice.title} style={[styles.noticeRow, index === branch.announcements.length - 1 && styles.noticeRowLast]}>
-              <Text style={styles.noticeTitle}>{notice.title}</Text>
-              <Text style={styles.noticeBody}>{notice.detail}</Text>
+              <View style={styles.noticeAccent} />
+              <View style={styles.noticeCopy}>
+                <Text style={styles.noticeTitle}>{notice.title}</Text>
+                <Text style={styles.noticeBody}>{notice.detail}</Text>
+              </View>
             </View>
           ))}
         </View>
@@ -143,6 +150,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     backgroundColor: colors.bg.surface,
   },
+  leadActionTop: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
   leadActionText: {
     color: colors.text.primary,
     fontWeight: "700",
@@ -155,6 +167,9 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   supportActionChip: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: spacing.xs,
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.sm,
     borderRadius: radii.pill,
@@ -230,8 +245,6 @@ const styles = StyleSheet.create({
   },
   secondarySection: {
     paddingBottom: spacing.md,
-    borderBottomWidth: borders.hairline,
-    borderBottomColor: colors.border.soft,
   },
   sectionHeaderRow: {
     flexDirection: "row",
@@ -247,23 +260,35 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
   },
   noticeRow: {
-    paddingVertical: spacing.md - 2,
-    borderBottomWidth: borders.hairline,
-    borderBottomColor: colors.border.soft,
+    flexDirection: "row",
+    gap: spacing.md,
+    padding: spacing.md,
+    borderRadius: radii.md,
+    backgroundColor: colors.bg.surface,
+    borderWidth: borders.soft,
+    borderColor: colors.border.soft,
+    marginBottom: spacing.sm,
   },
   noticeRowLast: {
-    borderBottomWidth: 0,
-    paddingBottom: 0,
+    marginBottom: 0,
+  },
+  noticeAccent: {
+    width: 6,
+    borderRadius: radii.pill,
+    backgroundColor: colors.signature.major,
+  },
+  noticeCopy: {
+    flex: 1,
   },
   noticeTitle: {
     color: colors.text.primary,
-    fontSize: typography.sizes.body,
-    fontWeight: "700",
-    marginBottom: 4,
+    fontSize: typography.sizes.cardTitle,
+    fontWeight: "800",
+    marginBottom: spacing.xs,
   },
   noticeBody: {
     color: colors.text.secondary,
     fontSize: typography.sizes.body,
-    lineHeight: 21,
+    lineHeight: 22,
   },
 });

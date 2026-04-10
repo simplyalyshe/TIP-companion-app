@@ -8,10 +8,16 @@ export default function CampusCard({ optionKey, title, description, address, sel
   const theme = getCampusTheme(optionKey);
 
   return (
-    <Pressable onPress={onPress} style={[styles.card, selected && { borderColor: theme.accent }]}> 
-      <View style={styles.header}>
+    <Pressable onPress={onPress} style={[styles.card, selected && { borderColor: theme.accent, backgroundColor: colors.bg.muted }]}>
+      <View style={styles.cardTop}>
         <Text style={styles.title}>{title}</Text>
-        <MaterialCommunityIcons name={selected ? "check-circle" : "chevron-right"} size={20} color={selected ? theme.accent : colors.text.muted} />
+        <View style={[styles.iconShell, selected && { backgroundColor: theme.accent, borderColor: theme.accent }]}>
+          <MaterialCommunityIcons
+            name={selected ? "check" : "arrow-top-right"}
+            size={18}
+            color={selected ? colors.text.primary : theme.accent}
+          />
+        </View>
       </View>
       <Text style={styles.description}>{description}</Text>
       <Text style={styles.meta}>{address}</Text>
@@ -25,14 +31,25 @@ const styles = StyleSheet.create({
     borderRadius: radii.md,
     borderWidth: borders.soft,
     borderColor: colors.border.soft,
-    padding: spacing.md,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.md + 2,
+    gap: spacing.xs,
   },
-  header: {
+  cardTop: {
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: spacing.xs,
-    gap: spacing.sm,
+    justifyContent: "space-between",
+    gap: spacing.md,
+  },
+  iconShell: {
+    width: 34,
+    height: 34,
+    borderRadius: radii.pill,
+    borderWidth: borders.soft,
+    borderColor: colors.border.strong,
+    backgroundColor: colors.bg.surface,
+    alignItems: "center",
+    justifyContent: "center",
   },
   title: {
     flex: 1,
@@ -42,9 +59,8 @@ const styles = StyleSheet.create({
   },
   description: {
     color: colors.text.secondary,
-    lineHeight: 21,
-    marginBottom: spacing.xs,
-    fontSize: typography.sizes.body,
+    lineHeight: 20,
+    fontSize: typography.sizes.meta,
   },
   meta: {
     color: colors.text.muted,

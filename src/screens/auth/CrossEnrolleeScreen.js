@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Pressable, StyleSheet, Text } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useAppData } from "../../context/AppContext";
 import { campusData } from "../../data/campuses";
@@ -18,38 +18,36 @@ export default function CrossEnrolleeScreen({ navigation }) {
     const isCross = selection === "yes";
     setIsCrossEnrollee(isCross);
     setActiveCampusKey(homeCampusKey);
-    navigation.navigate(isCross ? "SessionCampus" : "SignIn");
+    navigation.navigate("SignIn");
   }
 
   return (
     <AppScreen>
       <StatusBar style="dark" />
-      <ScreenShell>
+      <ScreenShell contentStyle={styles.content}>
         <BrandPanel
           campusKey={homeCampusKey}
-          eyebrow="Access Check"
-          title="Cross-enrollee access"
-          subtitle={`Home campus on file: ${branch.name}.`}
+          eyebrow="Step 2"
+          title="Cross-enrollee?"
+          subtitle="Access preference"
         />
 
-        <Text style={styles.pageLead}>
-          Confirm whether you need access to another campus during this session.
-        </Text>
-
-        <ChoiceCard
-          title="Use my home campus"
-          description="Continue directly with your default campus access."
-          icon="school-outline"
-          selected={selection === "no"}
-          onPress={() => setSelection("no")}
-        />
-        <ChoiceCard
-          title="I am cross-enrolled"
-          description="Choose another campus for this session and allow switching later."
-          icon="swap-horizontal"
-          selected={selection === "yes"}
-          onPress={() => setSelection("yes")}
-        />
+        <View style={styles.choiceGrid}>
+          <ChoiceCard
+            title="No"
+            description="Home campus"
+            icon="school-outline"
+            selected={selection === "no"}
+            onPress={() => setSelection("no")}
+          />
+          <ChoiceCard
+            title="Yes"
+            description="Switch later"
+            icon="swap-horizontal"
+            selected={selection === "yes"}
+            onPress={() => setSelection("yes")}
+          />
+        </View>
 
         <Pressable
           onPress={handleContinue}
@@ -64,17 +62,19 @@ export default function CrossEnrolleeScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  pageLead: {
-    fontSize: typography.sizes.body,
-    lineHeight: 22,
-    color: colors.text.secondary,
-    marginTop: -spacing.sm,
+  content: {
+    flexGrow: 1,
+    justifyContent: "center",
+  },
+  choiceGrid: {
+    gap: spacing.md,
   },
   primaryButton: {
     backgroundColor: colors.bg.inverse,
     borderRadius: radii.pill,
     paddingVertical: 15,
     alignItems: "center",
+    marginTop: spacing.xs,
   },
   primaryButtonText: {
     color: colors.text.inverse,

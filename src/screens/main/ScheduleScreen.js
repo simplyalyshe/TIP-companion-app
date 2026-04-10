@@ -40,6 +40,24 @@ export default function ScheduleScreen() {
           <Text style={styles.title}>Weekly Classes</Text>
         </View>
 
+        <View style={styles.calendarSection}>
+          <View style={styles.calendarHeader}>
+            <Text style={styles.calendarTitle}>School Calendar</Text>
+            <Text style={styles.calendarMeta}>{branch.shortName}</Text>
+          </View>
+          {branch.academicCalendar.map((item, index) => (
+            <View key={`${item.dateLabel}-${item.title}`} style={[styles.calendarRow, index === branch.academicCalendar.length - 1 && styles.calendarRowLast]}>
+              <View style={styles.calendarDate}>
+                <Text style={styles.calendarDateText}>{item.dateLabel}</Text>
+              </View>
+              <View style={styles.calendarCopy}>
+                <Text style={styles.calendarItemTitle}>{item.title}</Text>
+                <Text style={styles.calendarItemMeta}>{item.tag}</Text>
+              </View>
+            </View>
+          ))}
+        </View>
+
         <View style={styles.toggleRow}>
           <Pressable onPress={() => setViewMode("list")} style={[styles.toggleButton, viewMode === "list" && styles.toggleButtonActive]}>
             <Text style={[styles.toggleText, viewMode === "list" && styles.toggleTextActive]}>Agenda</Text>
@@ -134,6 +152,70 @@ const styles = StyleSheet.create({
   toggleRow: {
     flexDirection: "row",
     gap: spacing.sm,
+  },
+  calendarSection: {
+    borderWidth: borders.soft,
+    borderColor: colors.border.soft,
+    borderRadius: radii.md,
+    backgroundColor: colors.bg.surface,
+    padding: spacing.md,
+  },
+  calendarHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: spacing.sm,
+  },
+  calendarTitle: {
+    color: colors.text.primary,
+    fontSize: typography.sizes.section,
+    fontWeight: "800",
+  },
+  calendarMeta: {
+    color: colors.text.accent,
+    fontSize: typography.sizes.micro,
+    fontWeight: "700",
+    letterSpacing: 1,
+    textTransform: "uppercase",
+  },
+  calendarRow: {
+    flexDirection: "row",
+    gap: spacing.md,
+    alignItems: "center",
+    paddingVertical: spacing.sm,
+    borderBottomWidth: borders.hairline,
+    borderBottomColor: colors.border.soft,
+  },
+  calendarRowLast: {
+    borderBottomWidth: 0,
+    paddingBottom: 0,
+  },
+  calendarDate: {
+    minWidth: 72,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 8,
+    borderRadius: radii.pill,
+    backgroundColor: colors.bg.muted,
+    alignItems: "center",
+  },
+  calendarDateText: {
+    color: colors.text.primary,
+    fontSize: typography.sizes.micro,
+    fontWeight: "800",
+    textTransform: "uppercase",
+  },
+  calendarCopy: {
+    flex: 1,
+  },
+  calendarItemTitle: {
+    color: colors.text.primary,
+    fontSize: typography.sizes.body,
+    fontWeight: "700",
+  },
+  calendarItemMeta: {
+    color: colors.text.secondary,
+    fontSize: typography.sizes.meta,
+    marginTop: 3,
   },
   toggleButton: {
     flex: 1,

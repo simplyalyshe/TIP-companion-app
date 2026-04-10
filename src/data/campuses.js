@@ -121,6 +121,11 @@ export const campusData = {
       ],
     },
     quickLinks: ["Canvas", "Library", "Scholarships", "Student Services"],
+    academicCalendar: [
+      { dateLabel: "Apr 14", title: "Midterm Week", tag: "Academics" },
+      { dateLabel: "Apr 18", title: "Advising Day", tag: "Student Services" },
+      { dateLabel: "Apr 24", title: "Enrollment Opens", tag: "Registrar" },
+    ],
     studentProfile: {
       name: "Andrea Mae Santos",
       program: "BS Information Technology",
@@ -193,7 +198,12 @@ export const campusData = {
         { key: "bridge", label: "Footbridge", top: "68%", left: "62%" },
       ],
     },
-    quickLinks: ["Canvas", "Career Center", "FAQs", "Enrollment"],
+    quickLinks: ["Canvas", "Career Center", "FAQs"],
+    academicCalendar: [
+      { dateLabel: "Apr 15", title: "Project Checkpoint", tag: "Academics" },
+      { dateLabel: "Apr 19", title: "Campus Holiday", tag: "Advisory" },
+      { dateLabel: "Apr 26", title: "Enrollment Opens", tag: "Registrar" },
+    ],
     studentProfile: {
       name: "Miguel Antonio Reyes",
       program: "BS Civil Engineering",
