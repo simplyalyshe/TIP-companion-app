@@ -6,28 +6,31 @@ import { borders, colors, radii, signature, spacing, typography } from "../../th
 import AppScreen from "../../components/common/AppScreen";
 import ScreenShell from "../../components/common/ScreenShell";
 
-function getBuildingStyle(tone) {
-  if (tone === "dark") {
-    return { backgroundColor: colors.bg.inverse, borderColor: colors.bg.inverse };
-  }
-
-  if (tone === "accent") {
-    return { backgroundColor: colors.accent.default, borderColor: colors.accent.strong };
-  }
-
-  return { backgroundColor: colors.bg.surface, borderColor: colors.border.strong };
+function getBuildingStyle() {
+  return { backgroundColor: colors.gray100, borderColor: colors.border.strong };
 }
 
-function getBuildingTextStyle(tone) {
-  return tone === "dark"
-    ? { color: colors.text.inverse }
-    : { color: colors.text.primary };
+function getGreeneryPatches(activeCampusKey) {
+  if (activeCampusKey === "manila") {
+    return [
+      { key: "g1", top: "14%", left: "66%", width: 72, height: 38, rotate: "18deg" },
+      { key: "g2", top: "48%", left: "8%", width: 64, height: 34, rotate: "-14deg" },
+      { key: "g3", top: "74%", left: "68%", width: 84, height: 40, rotate: "10deg" },
+    ];
+  }
+
+  return [
+    { key: "g1", top: "16%", left: "12%", width: 88, height: 40, rotate: "-12deg" },
+    { key: "g2", top: "46%", left: "70%", width: 72, height: 34, rotate: "15deg" },
+    { key: "g3", top: "76%", left: "18%", width: 96, height: 42, rotate: "8deg" },
+  ];
 }
 
 export default function CampusMapScreen() {
   const { activeCampusKey } = useAppData();
   const branch = campusData[activeCampusKey];
   const map = branch.mapMockup;
+  const greeneryPatches = getGreeneryPatches(activeCampusKey);
 
   return (
     <AppScreen>
@@ -42,9 +45,10 @@ export default function CampusMapScreen() {
 
         <View style={styles.siteCard}>
           <View style={styles.siteCardHeader}>
-            <View>
+            <View style={styles.siteCardHeaderCopy}>
               <Text style={styles.siteCardLabel}>Illustrative Site Card</Text>
               <Text style={styles.siteCardTitle}>{branch.name}</Text>
+              <Text style={styles.siteCardMeta}>{map.district}</Text>
             </View>
             <View style={styles.orientationChip}>
               <Text style={styles.orientationText}>{map.orientation}</Text>
@@ -53,6 +57,21 @@ export default function CampusMapScreen() {
 
           <View style={styles.mapCanvas}>
             <View style={styles.canvasFrame} />
+            {greeneryPatches.map((patch) => (
+              <View
+                key={patch.key}
+                style={[
+                  styles.greeneryPatch,
+                  {
+                    top: patch.top,
+                    left: patch.left,
+                    width: patch.width,
+                    height: patch.height,
+                    transform: [{ rotate: patch.rotate }],
+                  },
+                ]}
+              />
+            ))}
             {map.roads.map((road) => (
               <View
                 key={road.key}
@@ -66,9 +85,7 @@ export default function CampusMapScreen() {
                     transform: [{ rotate: `${road.angle}deg` }],
                   },
                 ]}
-              >
-                <Text style={styles.roadLabel}>{road.label}</Text>
-              </View>
+              />
             ))}
 
             {map.paths.map((path) => (
@@ -93,7 +110,7 @@ export default function CampusMapScreen() {
                 style={[
                   styles.building,
                   building.shape === "pill" && styles.buildingPill,
-                  getBuildingStyle(building.tone),
+                  getBuildingStyle(),
                   {
                     top: building.top,
                     left: building.left,
@@ -103,18 +120,12 @@ export default function CampusMapScreen() {
                   },
                 ]}
               >
-                <View style={styles.buildingTopRow}>
-                  <Text style={styles.buildingNumber}>{building.number}</Text>
-                  <Text style={[styles.buildingShort, getBuildingTextStyle(building.tone)]}>{building.short}</Text>
+                <View style={styles.buildingCode}>
+                  <View style={styles.buildingNumberBadge}>
+                    <Text style={styles.buildingNumber}>{building.number}</Text>
+                  </View>
+                  <Text style={styles.buildingShort}>{building.short}</Text>
                 </View>
-                <Text style={[styles.buildingLabel, getBuildingTextStyle(building.tone)]}>{building.label}</Text>
-              </View>
-            ))}
-
-            {map.nodes.map((node) => (
-              <View key={node.key} style={[styles.node, { top: node.top, left: node.left }]}>
-                <View style={styles.nodeDot} />
-                <Text style={styles.nodeLabel}>{node.label}</Text>
               </View>
             ))}
           </View>
@@ -127,7 +138,9 @@ export default function CampusMapScreen() {
           </View>
           {map.buildings.map((building, index) => (
             <View key={building.key} style={[styles.legendRow, index === map.buildings.length - 1 && styles.legendRowLast]}>
-              <Text style={styles.legendIndex}>{building.number}</Text>
+              <View style={styles.legendIndexBadge}>
+                <Text style={styles.legendIndex}>{building.number}</Text>
+              </View>
               <View style={styles.legendCopy}>
                 <Text style={styles.legendName}>{building.label}</Text>
                 <Text style={styles.legendShort}>{building.short}</Text>
@@ -185,12 +198,16 @@ const styles = StyleSheet.create({
   },
   siteCardHeader: {
     paddingHorizontal: spacing.md,
-    paddingTop: spacing.md,
-    paddingBottom: spacing.sm,
+    paddingTop: spacing.md + 2,
+    paddingBottom: spacing.xs,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-start",
     gap: spacing.sm,
+  },
+  siteCardHeaderCopy: {
+    flex: 1,
+    paddingRight: spacing.xs,
   },
   siteCardLabel: {
     color: colors.accent.default,
@@ -205,10 +222,16 @@ const styles = StyleSheet.create({
     fontSize: typography.sizes.section,
     fontWeight: "800",
   },
+  siteCardMeta: {
+    color: "rgba(255,255,255,0.68)",
+    fontSize: typography.sizes.meta,
+    lineHeight: 19,
+    marginTop: spacing.xs,
+  },
   orientationChip: {
     backgroundColor: "rgba(255,255,255,0.08)",
     paddingHorizontal: spacing.sm,
-    paddingVertical: 8,
+    paddingVertical: 7,
     borderRadius: radii.pill,
   },
   orientationText: {
@@ -220,9 +243,9 @@ const styles = StyleSheet.create({
   },
   mapCanvas: {
     position: "relative",
-    height: 390,
+    height: 372,
     margin: spacing.md,
-    marginTop: spacing.sm,
+    marginTop: spacing.sm + 2,
     backgroundColor: "#F3EFE3",
     borderRadius: radii.md,
     overflow: "hidden",
@@ -233,83 +256,69 @@ const styles = StyleSheet.create({
     borderColor: "rgba(13,13,13,0.12)",
     borderRadius: radii.md,
   },
+  greeneryPatch: {
+    position: "absolute",
+    borderRadius: 999,
+    backgroundColor: "rgba(178, 212, 182, 0.55)",
+  },
   road: {
     position: "absolute",
     borderRadius: radii.pill,
     backgroundColor: "#D6D1C2",
-    justifyContent: "center",
-    paddingHorizontal: spacing.sm,
-  },
-  roadLabel: {
-    color: "#6B665A",
-    fontSize: 9,
-    fontWeight: "700",
-    textTransform: "uppercase",
-    letterSpacing: 0.7,
+    opacity: 0.9,
   },
   path: {
     position: "absolute",
     borderRadius: radii.pill,
-    backgroundColor: "rgba(242,194,48,0.65)",
+    backgroundColor: "#E3DED0",
   },
   building: {
     position: "absolute",
     borderWidth: borders.soft,
-    borderRadius: radii.md,
-    padding: spacing.sm,
-    justifyContent: "space-between",
+    borderRadius: radii.xs,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: spacing.xs,
+    shadowColor: "#000000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 6,
+    elevation: 3,
   },
   buildingPill: {
-    borderRadius: 999,
-    paddingHorizontal: spacing.md,
+    borderRadius: radii.xs,
+    paddingHorizontal: 0,
   },
-  buildingTopRow: {
+  buildingCode: {
+    borderRadius: radii.pill,
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
-    gap: spacing.sm,
+    gap: spacing.xs,
+    paddingHorizontal: spacing.xs,
+    paddingVertical: 4,
+  },
+  buildingNumberBadge: {
+    width: 20,
+    height: 20,
+    borderRadius: radii.pill,
+    borderWidth: borders.soft,
+    borderColor: colors.border.strong,
+    alignItems: "center",
+    justifyContent: "center",
   },
   buildingNumber: {
-    width: 24,
-    height: 24,
-    borderRadius: radii.pill,
-    backgroundColor: colors.white,
     color: colors.text.primary,
-    textAlign: "center",
-    lineHeight: 24,
     fontWeight: "800",
-    fontSize: typography.sizes.micro,
+    fontSize: 10,
+    lineHeight: 12,
+    textAlign: "center",
   },
   buildingShort: {
-    fontSize: 10,
+    color: colors.text.primary,
     fontWeight: "800",
-    letterSpacing: 0.8,
+    fontSize: 10,
+    letterSpacing: 0.5,
     textTransform: "uppercase",
-  },
-  buildingLabel: {
-    fontWeight: "700",
-    fontSize: typography.sizes.micro,
-    lineHeight: 16,
-  },
-  node: {
-    position: "absolute",
-    alignItems: "center",
-    gap: 4,
-  },
-  nodeDot: {
-    width: 10,
-    height: 10,
-    borderRadius: radii.pill,
-    backgroundColor: colors.signature.rail,
-    borderWidth: 2,
-    borderColor: colors.white,
-  },
-  nodeLabel: {
-    color: "#5C584E",
-    fontSize: 9,
-    fontWeight: "700",
-    textTransform: "uppercase",
-    letterSpacing: 0.6,
   },
   legendSection: {
     paddingBottom: spacing.md,
@@ -338,16 +347,25 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: spacing.md,
-    paddingVertical: spacing.sm,
+    paddingVertical: spacing.sm + 2,
     borderBottomWidth: borders.hairline,
     borderBottomColor: colors.border.soft,
   },
   legendRowLast: {
     borderBottomWidth: 0,
   },
+  legendIndexBadge: {
+    width: 34,
+    height: 34,
+    borderRadius: radii.pill,
+    backgroundColor: colors.accent.default,
+    borderWidth: borders.soft,
+    borderColor: colors.accent.default,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   legendIndex: {
-    width: 28,
-    color: colors.text.accent,
+    color: colors.text.primary,
     fontSize: typography.sizes.meta,
     fontWeight: "800",
   },

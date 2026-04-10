@@ -106,46 +106,38 @@ export default function SignInScreen({ navigation }) {
   }
 
   return (
-    <AppScreen>
+    <AppScreen backgroundColor={colors.bg.app}>
       <StatusBar style="dark" />
-      <ScreenShell>
+      <ScreenShell backgroundColor={colors.bg.app} contentStyle={styles.content}>
         <BrandPanel
           campusKey={activeCampusKey}
-          eyebrow="Secure Access"
-          title="Sign in to the campus portal"
+          eyebrow="Step 3"
+          title="Sign in"
           subtitle={branch.name}
         >
           <View style={styles.portalMetaRow}>
-            <Text style={styles.portalMeta}>Student access</Text>
-            <Text style={styles.portalMeta}>{branch.shortName}</Text>
+            <Text style={styles.portalMeta}>{branch.shortName} Student Portal</Text>
           </View>
         </BrandPanel>
 
         <View style={styles.formSection}>
-          <View style={styles.formHeader}>
-            <View>
-              <Text style={styles.sectionEyebrow}>Authentication</Text>
-              <Text style={styles.sectionTitle}>Credentials</Text>
-            </View>
-            <View style={styles.sectionRule} />
-          </View>
-          <Text style={styles.sectionBody}>Use your institutional student credentials to continue.</Text>
-
           <AuthInput
-            label="Student ID"
-            placeholder="Enter your 6-digit student ID"
+            label=""
+            placeholder="6-digit ID"
             value={studentNumber}
             onChangeText={onStudentChange}
             keyboardType="number-pad"
             maxLength={6}
+            centered
           />
 
           <AuthInput
-            label="Password"
-            placeholder="Enter your password"
+            label=""
+            placeholder="Password"
             value={password}
             onChangeText={onPasswordChange}
             secureTextEntry={!showPassword}
+            centered
             rightAdornment={
               <Pressable onPress={() => setShowPassword((value) => !value)}>
                 <MaterialCommunityIcons
@@ -160,7 +152,7 @@ export default function SignInScreen({ navigation }) {
           {error ? <Text style={styles.errorText}>{error}</Text> : null}
 
           <Pressable onPress={handleSubmit} style={styles.primaryButton}>
-            <Text style={styles.primaryButtonText}>Continue</Text>
+            <Text style={styles.primaryButtonText}>Enter</Text>
           </Pressable>
         </View>
       </ScreenShell>
@@ -169,27 +161,28 @@ export default function SignInScreen({ navigation }) {
         <View style={styles.modalBackdrop}>
           <View style={styles.modalCard}>
             <Text style={styles.modalEyebrow}>Verification</Text>
-            <Text style={styles.modalTitle}>Enter security code</Text>
+            <Text style={styles.modalTitle}>Enter code</Text>
             <Text style={styles.modalText}>{maskContact(studentNumber)}</Text>
 
             <AuthInput
-              label="One-Time Passcode"
+              label=""
               placeholder="6-digit code"
               value={otp}
               onChangeText={onOtpChange}
               keyboardType="number-pad"
               maxLength={6}
+              centered
             />
 
             <View style={styles.otpMetaRow}>
-              <Text style={styles.otpMetaText}>Code sent to your T.I.P. email</Text>
+              <Text style={styles.otpMetaText}>Sent to your T.I.P. email</Text>
               <Text style={styles.otpMetaText}>{countdown > 0 ? `Resend in ${countdown}s` : "Resend available"}</Text>
             </View>
 
             {otpError ? <Text style={styles.errorText}>{otpError}</Text> : null}
 
             <Pressable onPress={handleVerifyOtp} disabled={isVerifying} style={[styles.primaryButton, isVerifying && styles.buttonDisabled]}>
-              <Text style={styles.primaryButtonText}>{isVerifying ? "Verifying" : "Verify and continue"}</Text>
+              <Text style={styles.primaryButtonText}>{isVerifying ? "Verifying" : "Verify"}</Text>
             </Pressable>
 
             <Pressable onPress={handleResend} style={styles.secondaryButton}>
@@ -203,70 +196,42 @@ export default function SignInScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  content: {
+    flexGrow: 1,
+    justifyContent: "center",
+  },
   portalMetaRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
     gap: spacing.sm,
   },
   portalMeta: {
-    color: colors.text.inverse,
-    fontSize: typography.sizes.meta,
+    color: colors.text.secondary,
+    fontSize: typography.sizes.micro,
     fontWeight: "700",
     textTransform: "uppercase",
     letterSpacing: 0.8,
   },
   formSection: {
-    paddingBottom: spacing.lg,
-    borderBottomWidth: borders.hairline,
-    borderBottomColor: colors.border.soft,
-  },
-  formHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-end",
-    gap: spacing.md,
-  },
-  sectionEyebrow: {
-    color: colors.text.accent,
-    fontSize: typography.sizes.micro,
-    fontWeight: "700",
-    textTransform: "uppercase",
-    letterSpacing: 1,
-    marginBottom: 4,
-  },
-  sectionTitle: {
-    color: colors.text.primary,
-    fontSize: typography.sizes.section,
-    fontWeight: "800",
-  },
-  sectionRule: {
-    width: 64,
-    height: 4,
-    borderRadius: radii.pill,
-    backgroundColor: colors.signature.major,
-    marginBottom: 4,
-  },
-  sectionBody: {
-    fontSize: typography.sizes.body,
-    lineHeight: 22,
-    color: colors.text.secondary,
-    marginTop: spacing.xs,
+    paddingHorizontal: spacing.md,
+    paddingBottom: spacing.md,
   },
   errorText: {
     color: colors.status.error,
-    marginTop: spacing.md,
+    marginTop: spacing.sm,
     fontSize: typography.sizes.meta,
     lineHeight: 19,
+    textAlign: "center",
   },
   primaryButton: {
-    backgroundColor: colors.bg.inverse,
+    backgroundColor: colors.accent.default,
     borderRadius: radii.pill,
     paddingVertical: 15,
     alignItems: "center",
     marginTop: spacing.lg,
   },
   primaryButtonText: {
-    color: colors.text.inverse,
+    color: colors.text.primary,
     fontWeight: "700",
     fontSize: typography.sizes.body,
   },
@@ -294,7 +259,7 @@ const styles = StyleSheet.create({
   },
   modalCard: {
     backgroundColor: colors.bg.surface,
-    borderRadius: radii.md,
+    borderRadius: radii.lg,
     borderWidth: borders.soft,
     borderColor: colors.border.strong,
     padding: spacing.lg,
@@ -306,23 +271,28 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     marginBottom: spacing.xs,
     fontWeight: "700",
+    textAlign: "center",
   },
   modalTitle: {
     color: colors.text.primary,
     fontSize: typography.sizes.section,
     fontWeight: "800",
+    textAlign: "center",
   },
   modalText: {
     color: colors.text.secondary,
     marginTop: spacing.xs,
     fontSize: typography.sizes.body,
+    textAlign: "center",
   },
   otpMetaRow: {
     marginTop: spacing.md,
     gap: 3,
+    alignItems: "center",
   },
   otpMetaText: {
     color: colors.text.muted,
     fontSize: typography.sizes.meta,
+    textAlign: "center",
   },
 });

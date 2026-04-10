@@ -4,7 +4,6 @@ import MainTabs from "./MainTabs";
 import SplashScreen from "../screens/auth/SplashScreen";
 import HomeCampusScreen from "../screens/auth/HomeCampusScreen";
 import CrossEnrolleeScreen from "../screens/auth/CrossEnrolleeScreen";
-import SessionCampusScreen from "../screens/auth/SessionCampusScreen";
 import SignInScreen from "../screens/auth/SignInScreen";
 
 const Stack = createNativeStackNavigator();
@@ -15,7 +14,6 @@ export default function AppNavigator() {
       <Stack.Screen name="Splash" component={SplashScreen} />
       <Stack.Screen name="HomeCampus" component={HomeCampusScreen} />
       <Stack.Screen name="CrossEnrollee" component={CrossEnrolleeScreen} />
-      <Stack.Screen name="SessionCampus" component={SessionCampusScreen} />
       <Stack.Screen name="SignIn" component={SignInScreen} />
       <Stack.Screen name="MainTabs" component={MainTabs} />
     </Stack.Navigator>

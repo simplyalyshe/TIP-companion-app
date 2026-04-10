@@ -3,11 +3,11 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 import { borders, colors, radii, spacing, typography } from "../../theme";
 
 export default function AuthInput(props) {
-  const { label, value, onChangeText, placeholder, keyboardType, secureTextEntry, rightAdornment, maxLength } = props;
+  const { label, value, onChangeText, placeholder, keyboardType, secureTextEntry, rightAdornment, maxLength, centered = false } = props;
 
   return (
     <View style={styles.group}>
-      <Text style={styles.label}>{label}</Text>
+      {label ? <Text style={[styles.label, centered && styles.labelCentered]}>{label}</Text> : null}
       <View style={styles.shell}>
         <TextInput
           value={value}
@@ -17,7 +17,7 @@ export default function AuthInput(props) {
           keyboardType={keyboardType}
           secureTextEntry={secureTextEntry}
           maxLength={maxLength}
-          style={styles.input}
+          style={[styles.input, centered && styles.inputCentered]}
         />
         {rightAdornment ? <View style={styles.adornment}>{rightAdornment}</View> : null}
       </View>
@@ -28,6 +28,7 @@ export default function AuthInput(props) {
 const styles = StyleSheet.create({
   group: {
     marginTop: spacing.md,
+    width: "100%",
   },
   label: {
     fontSize: typography.sizes.micro,
@@ -37,6 +38,9 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
     letterSpacing: 1,
   },
+  labelCentered: {
+    textAlign: "center",
+  },
   shell: {
     position: "relative",
     justifyContent: "center",
@@ -45,12 +49,15 @@ const styles = StyleSheet.create({
     backgroundColor: colors.bg.surface,
     borderWidth: borders.soft,
     borderColor: colors.border.strong,
-    borderRadius: radii.sm,
+    borderRadius: radii.md,
     paddingHorizontal: spacing.md,
-    paddingVertical: 14,
+    paddingVertical: 15,
     paddingRight: 48,
     fontSize: typography.sizes.body,
     color: colors.text.primary,
+  },
+  inputCentered: {
+    textAlign: "center",
   },
   adornment: {
     position: "absolute",

@@ -121,6 +121,11 @@ export const campusData = {
       ],
     },
     quickLinks: ["Canvas", "Library", "Scholarships", "Student Services"],
+    academicCalendar: [
+      { dateLabel: "Apr 14", title: "Midterm Week", tag: "Academics" },
+      { dateLabel: "Apr 18", title: "Advising Day", tag: "Student Services" },
+      { dateLabel: "Apr 24", title: "Enrollment Opens", tag: "Registrar" },
+    ],
     studentProfile: {
       name: "Andrea Mae Santos",
       program: "BS Information Technology",
@@ -183,7 +188,7 @@ export const campusData = {
       ],
       buildings: [
         { key: "casal", number: 1, label: "P. Casal Building", short: "CASAL", top: "18%", left: "12%", width: "30%", height: 84, tone: "dark", shape: "rect", angle: -5 },
-        { key: "arlegui", number: 2, label: "Arlegui Annex", short: "ANNEX", top: "18%", left: "56%", width: "24%", height: 68, tone: "light", shape: "rect", angle: 5 },
+          { key: "arlegui", number: 2, label: "Arlegui Annex", short: "ANNEX", top: "18%", left: "54%", width: "28%", height: 68, tone: "light", shape: "rect", angle: 5 },
         { key: "library", number: 3, label: "Library", short: "LIB", top: "50%", left: "14%", width: "22%", height: 72, tone: "accent", shape: "rect", angle: -4 },
         { key: "student", number: 4, label: "Student Services", short: "SERV", top: "48%", left: "50%", width: "30%", height: 76, tone: "dark", shape: "rect", angle: 3 },
         { key: "commons", number: 5, label: "Study Commons", short: "COMMONS", top: "80%", left: "28%", width: "34%", height: 42, tone: "light", shape: "pill", angle: 0 },
@@ -193,7 +198,12 @@ export const campusData = {
         { key: "bridge", label: "Footbridge", top: "68%", left: "62%" },
       ],
     },
-    quickLinks: ["Canvas", "Career Center", "FAQs", "Enrollment"],
+    quickLinks: ["Canvas", "Career Center", "FAQs"],
+    academicCalendar: [
+      { dateLabel: "Apr 15", title: "Project Checkpoint", tag: "Academics" },
+      { dateLabel: "Apr 19", title: "Campus Holiday", tag: "Advisory" },
+      { dateLabel: "Apr 26", title: "Enrollment Opens", tag: "Registrar" },
+    ],
     studentProfile: {
       name: "Miguel Antonio Reyes",
       program: "BS Civil Engineering",
