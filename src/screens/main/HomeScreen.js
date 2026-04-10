@@ -31,7 +31,7 @@ export default function HomeScreen() {
 
   return (
     <AppScreen>
-      <ScreenShell>
+      <ScreenShell topSpacing="default">
         <HeroBanner branch={branch} />
 
         <View style={styles.actionRail}>

@@ -2,6 +2,7 @@ import React from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useAppData } from "../context/AppContext";
 import { campusData } from "../data/campuses";
 import { borders, colors, spacing, typography } from "../theme";
@@ -17,6 +18,9 @@ const Tab = createBottomTabNavigator();
 export default function MainTabs() {
   const { activeCampusKey } = useAppData();
   const branch = campusData[activeCampusKey];
+  const insets = useSafeAreaInsets();
+  const tabBarPaddingBottom = Math.max(10, insets.bottom);
+  const tabBarHeight = 60 + tabBarPaddingBottom;
 
   return (
     <Tab.Navigator
@@ -32,7 +36,15 @@ export default function MainTabs() {
         ),
         tabBarActiveTintColor: colors.accent.default,
         tabBarInactiveTintColor: colors.text.muted,
-        tabBarStyle: styles.tabBar,
+        tabBarStyle: [
+          styles.tabBar,
+          {
+            height: tabBarHeight,
+            paddingTop: insets.bottom > 0 ? 4 : 6,
+            paddingBottom: tabBarPaddingBottom,
+          },
+        ],
+        tabBarItemStyle: styles.tabBarItem,
         tabBarLabelStyle: styles.tabBarLabel,
         tabBarIcon: ({ color, size, focused }) => {
           const iconMap = {
@@ -70,7 +82,7 @@ const styles = StyleSheet.create({
   headerBadge: {
     backgroundColor: colors.accent.default,
     paddingHorizontal: 10,
-    paddingVertical: 6,
+    paddingVertical: 5,
     borderRadius: 999,
     marginRight: spacing.xs,
   },
@@ -82,16 +94,16 @@ const styles = StyleSheet.create({
     letterSpacing: 0.8,
   },
   tabBar: {
-    height: 66,
-    paddingTop: 6,
-    paddingBottom: 8,
     backgroundColor: colors.bg.surface,
     borderTopWidth: borders.soft,
     borderTopColor: colors.border.soft,
   },
+  tabBarItem: {
+    paddingVertical: 2,
+  },
   tabBarLabel: {
     fontSize: typography.sizes.micro,
     fontWeight: "700",
-    marginBottom: 2,
+    marginBottom: 0,
   },
 });
