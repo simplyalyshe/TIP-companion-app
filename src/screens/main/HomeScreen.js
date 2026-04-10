@@ -50,7 +50,7 @@ export default function HomeScreen() {
                   <MaterialCommunityIcons name={quickLinkIcons[item] || "arrow-top-right"} size={22} color={colors.accent.strong} />
                   <MaterialCommunityIcons name="arrow-top-right" size={18} color={colors.text.muted} />
                 </View>
-                <Text style={styles.leadActionText} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.82}>
+                <Text style={styles.leadActionText} numberOfLines={2} adjustsFontSizeToFit minimumFontScale={0.9}>
                   {quickLinkLabels[item] || item}
                 </Text>
               </Pressable>
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     color: colors.text.primary,
     fontWeight: "700",
     fontSize: typography.sizes.cardTitle,
-    lineHeight: 18,
+    lineHeight: 20,
   },
   supportActionRow: {
     flexDirection: "row",

@@ -66,7 +66,7 @@ export default function MainTabs() {
       <Tab.Screen name="Profile" component={ProfileScreen} />
       <Tab.Screen name="Schedule" component={ScheduleScreen} />
       <Tab.Screen name="Contacts" component={ContactsScreen} />
-      <Tab.Screen name="CampusMap" component={CampusMapScreen} options={{ title: "Campus Map" }} />
+      <Tab.Screen name="CampusMap" component={CampusMapScreen} options={{ title: "Map" }} />
     </Tab.Navigator>
   );
 }
