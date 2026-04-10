@@ -2,8 +2,8 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useAppData } from "../../context/AppContext";
-import { branchOptions, campusData } from "../../data/campuses";
-import { spacing } from "../../theme";
+import { branchOptions } from "../../data/campuses";
+import { colors, spacing } from "../../theme";
 import AppScreen from "../../components/common/AppScreen";
 import BrandPanel from "../../components/common/BrandPanel";
 import ScreenShell from "../../components/common/ScreenShell";
@@ -13,27 +13,22 @@ export default function HomeCampusScreen({ navigation }) {
   const { homeCampusKey, setHomeCampusKey, setActiveCampusKey, setIsCrossEnrollee } = useAppData();
 
   return (
-    <AppScreen>
+    <AppScreen backgroundColor={colors.bg.app}>
       <StatusBar style="dark" />
-      <ScreenShell contentStyle={styles.content}>
+      <ScreenShell backgroundColor={colors.bg.app} contentStyle={styles.content}>
         <BrandPanel
           campusKey={homeCampusKey}
           eyebrow="Step 1"
           title="Choose campus"
-          subtitle="T.I.P. home campus"
         />
 
         <View style={styles.cardGrid}>
           {branchOptions.map((option) => {
-            const campus = campusData[option.key];
-
             return (
               <CampusCard
                 key={option.key}
                 optionKey={option.key}
                 title={option.title}
-                description={option.description}
-                address={campus.address}
                 selected={homeCampusKey === option.key}
                 onPress={() => {
                   setHomeCampusKey(option.key);

@@ -18,12 +18,16 @@ const quickLinkIcons = {
   Enrollment: "clipboard-text-outline",
 };
 
+const quickLinkLabels = {
+  Scholarships: "Grants",
+};
+
 export default function HomeScreen() {
   const { activeCampusKey } = useAppData();
   const branch = campusData[activeCampusKey];
   const todayClass = branch.schedule[0];
   const leadActions = branch.quickLinks.slice(0, 3);
-  const supportActions = branch.quickLinks.slice(3);
+  const supportActions = branch.quickLinks.slice(3).filter((item) => item !== "Student Services");
 
   return (
     <AppScreen>
@@ -46,7 +50,9 @@ export default function HomeScreen() {
                   <MaterialCommunityIcons name={quickLinkIcons[item] || "arrow-top-right"} size={22} color={colors.accent.strong} />
                   <MaterialCommunityIcons name="arrow-top-right" size={18} color={colors.text.muted} />
                 </View>
-                <Text style={styles.leadActionText}>{item}</Text>
+                <Text style={styles.leadActionText} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.82}>
+                  {quickLinkLabels[item] || item}
+                </Text>
               </Pressable>
             ))}
           </View>
@@ -55,7 +61,7 @@ export default function HomeScreen() {
             <View style={styles.supportActionRow}>
               {supportActions.map((item) => (
                 <Pressable key={item} style={styles.supportActionChip}>
-                  <Text style={styles.supportActionText}>{item}</Text>
+                  <Text style={styles.supportActionText}>{quickLinkLabels[item] || item}</Text>
                   <MaterialCommunityIcons name="arrow-top-right" size={15} color={colors.text.secondary} />
                 </Pressable>
               ))}
@@ -158,8 +164,8 @@ const styles = StyleSheet.create({
   leadActionText: {
     color: colors.text.primary,
     fontWeight: "700",
-    fontSize: typography.sizes.body,
-    lineHeight: 20,
+    fontSize: typography.sizes.cardTitle,
+    lineHeight: 18,
   },
   supportActionRow: {
     flexDirection: "row",

@@ -21,6 +21,9 @@ export const colors = {
     surface: brand.white,
     muted: brand.gray100,
     inverse: brand.black,
+    auth: "#F6F1E6",
+    authSurface: "#FFF9F0",
+    authMuted: "#F2E8D3",
   },
   text: {
     primary: brand.black,
@@ -33,6 +36,7 @@ export const colors = {
     soft: brand.gray200,
     strong: brand.gray300,
     inverse: "rgba(255,255,255,0.16)",
+    auth: "#E3D2A6",
   },
   accent: {
     default: brand.gold,

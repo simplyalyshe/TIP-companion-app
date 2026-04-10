@@ -21,7 +21,7 @@ export default function SplashScreen({ navigation }) {
         <Text style={styles.kicker}>T.I.P.</Text>
         <Text style={styles.title}>Campus Companion</Text>
         <View style={styles.rule} />
-        <Text style={styles.subtitle}>Manila and Quezon City</Text>
+        <Text style={styles.subtitle}>MNL and QC</Text>
       </View>
     </AppScreen>
   );

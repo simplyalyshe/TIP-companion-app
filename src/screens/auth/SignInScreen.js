@@ -106,9 +106,9 @@ export default function SignInScreen({ navigation }) {
   }
 
   return (
-    <AppScreen>
+    <AppScreen backgroundColor={colors.bg.app}>
       <StatusBar style="dark" />
-      <ScreenShell contentStyle={styles.content}>
+      <ScreenShell backgroundColor={colors.bg.app} contentStyle={styles.content}>
         <BrandPanel
           campusKey={activeCampusKey}
           eyebrow="Step 3"
@@ -224,14 +224,14 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   primaryButton: {
-    backgroundColor: colors.bg.inverse,
+    backgroundColor: colors.accent.default,
     borderRadius: radii.pill,
     paddingVertical: 15,
     alignItems: "center",
     marginTop: spacing.lg,
   },
   primaryButtonText: {
-    color: colors.text.inverse,
+    color: colors.text.primary,
     fontWeight: "700",
     fontSize: typography.sizes.body,
   },
@@ -271,6 +271,7 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     marginBottom: spacing.xs,
     fontWeight: "700",
+    textAlign: "center",
   },
   modalTitle: {
     color: colors.text.primary,
@@ -292,5 +293,6 @@ const styles = StyleSheet.create({
   otpMetaText: {
     color: colors.text.muted,
     fontSize: typography.sizes.meta,
+    textAlign: "center",
   },
 });

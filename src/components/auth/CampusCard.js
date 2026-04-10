@@ -1,26 +1,13 @@
 import React from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Pressable, StyleSheet, Text } from "react-native";
 import { borders, colors, radii, spacing, typography } from "../../theme";
-import { getCampusTheme } from "../../utils/auth";
 
 export default function CampusCard({ optionKey, title, description, address, selected, onPress }) {
-  const theme = getCampusTheme(optionKey);
-
   return (
-    <Pressable onPress={onPress} style={[styles.card, selected && { borderColor: theme.accent, backgroundColor: colors.bg.muted }]}>
-      <View style={styles.cardTop}>
-        <Text style={styles.title}>{title}</Text>
-        <View style={[styles.iconShell, selected && { backgroundColor: theme.accent, borderColor: theme.accent }]}>
-          <MaterialCommunityIcons
-            name={selected ? "check" : "arrow-top-right"}
-            size={18}
-            color={selected ? colors.text.primary : theme.accent}
-          />
-        </View>
-      </View>
-      <Text style={styles.description}>{description}</Text>
-      <Text style={styles.meta}>{address}</Text>
+    <Pressable onPress={onPress} style={[styles.card, selected && styles.cardSelected]}>
+      <Text style={[styles.title, selected && styles.titleSelected]}>{title}</Text>
+      {description ? <Text style={styles.description}>{description}</Text> : null}
+      {address ? <Text style={styles.meta}>{address}</Text> : null}
     </Pressable>
   );
 }
@@ -28,44 +15,53 @@ export default function CampusCard({ optionKey, title, description, address, sel
 const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.bg.surface,
-    borderRadius: radii.md,
-    borderWidth: borders.soft,
-    borderColor: colors.border.soft,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.md + 2,
-    gap: spacing.xs,
-  },
-  cardTop: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    gap: spacing.md,
-  },
-  iconShell: {
-    width: 34,
-    height: 34,
-    borderRadius: radii.pill,
+    borderRadius: 18,
     borderWidth: borders.soft,
     borderColor: colors.border.strong,
-    backgroundColor: colors.bg.surface,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.md,
     alignItems: "center",
     justifyContent: "center",
+    minHeight: 82,
+    width: "88%",
+    alignSelf: "center",
+    shadowColor: "#000000",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.04,
+    shadowRadius: 14,
+    elevation: 2,
+  },
+  cardSelected: {
+    borderColor: colors.accent.default,
+    backgroundColor: colors.bg.muted,
+    shadowColor: "#000000",
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.06,
+    shadowRadius: 16,
+    elevation: 3,
   },
   title: {
-    flex: 1,
     color: colors.text.primary,
     fontSize: typography.sizes.cardTitle,
     fontWeight: "800",
+    textAlign: "center",
+    lineHeight: 22,
+    letterSpacing: 0.2,
+  },
+  titleSelected: {
+    color: colors.ink,
   },
   description: {
     color: colors.text.secondary,
     lineHeight: 20,
     fontSize: typography.sizes.meta,
+    textAlign: "center",
   },
   meta: {
     color: colors.text.muted,
     fontWeight: "600",
     lineHeight: 18,
     fontSize: typography.sizes.meta,
+    textAlign: "center",
   },
 });

@@ -1,7 +1,7 @@
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { logoUri } from "../../data/campuses";
-import { borders, colors, radii, signature, spacing, typography } from "../../theme";
+import { colors, radii, signature, spacing, typography } from "../../theme";
 import { getCampusTheme } from "../../utils/auth";
 
 export default function BrandPanel({ campusKey, eyebrow, title, subtitle, children }) {

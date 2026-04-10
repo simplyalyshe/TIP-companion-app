@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors, layout, spacing } from "../../theme";
 
-export default function ScreenShell({ children, contentStyle }) {
+export default function ScreenShell({ children, contentStyle, backgroundColor = colors.bg.app }) {
   const insets = useSafeAreaInsets();
 
   return (
@@ -12,6 +12,7 @@ export default function ScreenShell({ children, contentStyle }) {
       contentContainerStyle={[
         styles.content,
         { paddingBottom: spacing.xl + insets.bottom },
+        { backgroundColor },
         contentStyle,
       ]}
     >
@@ -24,7 +25,6 @@ const styles = StyleSheet.create({
   content: {
     paddingHorizontal: spacing.md,
     paddingTop: spacing.md,
-    backgroundColor: colors.bg.app,
   },
   inner: {
     width: "100%",
