@@ -5,7 +5,6 @@ import { campusData } from "../../data/campuses";
 import { borders, colors, radii, spacing, typography } from "../../theme";
 import AppScreen from "../../components/common/AppScreen";
 import ScreenShell from "../../components/common/ScreenShell";
-import DetailRow from "../../components/common/DetailRow";
 
 const tipMilestones = [
   {
@@ -43,9 +42,17 @@ const tipMilestones = [
 const institutionLead =
   "From its Quiapo beginnings to its Manila and Quezon City campuses today, the Technological Institute of the Philippines has grown with a clear focus on engineering, technology, and industry-ready education.";
 
+function formatCampusLines(phone) {
+  return (phone || "")
+    .split("/")
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
 export default function AboutScreen() {
   const { activeCampusKey } = useAppData();
   const branch = campusData[activeCampusKey];
+  const campusLines = formatCampusLines(branch.phone);
 
   return (
     <AppScreen>
@@ -97,10 +104,41 @@ export default function AboutScreen() {
 
           <Text style={styles.body}>{branch.about}</Text>
 
-          <View style={styles.infoCard}>
-            <DetailRow label="Campus" value={branch.name} emphasize />
-            <DetailRow label="Address" value={branch.address} />
-            <DetailRow label="Campus Line" value={branch.phone} isLast />
+          <View style={styles.campusFeatureCard}>
+            <View style={styles.campusFeatureHeader}>
+              <View>
+                <Text style={styles.campusFeatureEyebrow}>Campus Profile</Text>
+                <Text style={styles.campusFeatureTitle}>{branch.name}</Text>
+              </View>
+              <View style={styles.campusFeaturePill}>
+                <Text style={styles.campusFeaturePillText}>{activeCampusKey === "qc" ? "QC" : "MNL"}</Text>
+              </View>
+            </View>
+
+            <Text style={styles.campusLead}>{branch.subtitle}</Text>
+
+            <View style={styles.infoCard}>
+              <View style={styles.infoRow}>
+                <Text style={styles.infoLabel}>Campus</Text>
+                <Text style={[styles.infoValue, styles.infoValueStrong]}>{branch.name}</Text>
+              </View>
+
+              <View style={styles.infoRow}>
+                <Text style={styles.infoLabel}>Address</Text>
+                <Text style={styles.infoValue}>{branch.address}</Text>
+              </View>
+
+              <View style={styles.campusLineBlock}>
+                <Text style={styles.campusLineLabel}>Campus Lines</Text>
+                <View style={styles.campusLineList}>
+                  {campusLines.map((line, index) => (
+                    <Text key={line} style={[styles.campusLineValue, index === campusLines.length - 1 && styles.campusLineValueLast]}>
+                      {line}
+                    </Text>
+                  ))}
+                </View>
+              </View>
+            </View>
           </View>
         </View>
       </ScreenShell>
@@ -228,11 +266,104 @@ const styles = StyleSheet.create({
     color: colors.text.secondary,
     marginBottom: spacing.md,
   },
+  campusFeatureCard: {
+    borderRadius: radii.lg,
+    borderWidth: borders.soft,
+    borderColor: colors.border.soft,
+    backgroundColor: colors.bg.surface,
+    padding: spacing.md,
+    gap: spacing.md,
+  },
+  campusFeatureHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    gap: spacing.md,
+  },
+  campusFeatureEyebrow: {
+    color: colors.text.accent,
+    fontSize: typography.sizes.micro,
+    fontWeight: "700",
+    textTransform: "uppercase",
+    letterSpacing: 1,
+    marginBottom: spacing.xs,
+  },
+  campusFeatureTitle: {
+    color: colors.text.primary,
+    fontSize: typography.sizes.section,
+    fontWeight: "800",
+    lineHeight: 28,
+  },
+  campusFeaturePill: {
+    backgroundColor: colors.accent.default,
+    borderRadius: radii.pill,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.xs,
+  },
+  campusFeaturePillText: {
+    color: colors.text.primary,
+    fontSize: typography.sizes.micro,
+    fontWeight: "800",
+    letterSpacing: 0.8,
+    textTransform: "uppercase",
+  },
+  campusLead: {
+    color: colors.text.secondary,
+    fontSize: typography.sizes.body,
+    lineHeight: 22,
+  },
   infoCard: {
     borderWidth: borders.soft,
     borderColor: colors.border.soft,
     borderRadius: radii.md,
     backgroundColor: colors.bg.surface,
     overflow: "hidden",
+  },
+  infoRow: {
+    paddingVertical: spacing.sm + 2,
+    paddingHorizontal: spacing.md,
+    borderBottomWidth: borders.hairline,
+    borderBottomColor: colors.border.soft,
+  },
+  infoLabel: {
+    fontSize: typography.sizes.micro,
+    textTransform: "uppercase",
+    letterSpacing: 1,
+    color: colors.text.muted,
+    marginBottom: spacing.sm,
+    fontWeight: "700",
+  },
+  infoValue: {
+    fontSize: typography.sizes.body,
+    color: colors.text.primary,
+    fontWeight: "600",
+    lineHeight: 22,
+  },
+  infoValueStrong: {
+    fontWeight: "800",
+  },
+  campusLineBlock: {
+    paddingVertical: spacing.sm + 2,
+    paddingHorizontal: spacing.md,
+  },
+  campusLineLabel: {
+    fontSize: typography.sizes.micro,
+    textTransform: "uppercase",
+    letterSpacing: 1,
+    color: colors.text.muted,
+    marginBottom: spacing.sm,
+    fontWeight: "700",
+  },
+  campusLineList: {
+    gap: spacing.xs,
+  },
+  campusLineValue: {
+    fontSize: typography.sizes.body,
+    color: colors.text.primary,
+    fontWeight: "700",
+    lineHeight: 22,
+  },
+  campusLineValueLast: {
+    marginBottom: 0,
   },
 });
