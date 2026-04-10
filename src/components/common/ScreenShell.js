@@ -4,9 +4,9 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors, layout, spacing } from "../../theme";
 
 const topSpacingMap = {
-  tight: spacing.sm + 2,
-  default: spacing.md + 2,
-  relaxed: spacing.lg,
+  tight: spacing.xs,
+  default: spacing.sm,
+  relaxed: spacing.md - 2,
 };
 
 export default function ScreenShell({

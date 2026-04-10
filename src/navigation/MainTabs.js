@@ -27,6 +27,7 @@ export default function MainTabs() {
       screenOptions={({ route }) => ({
         headerStyle: styles.header,
         headerShadowVisible: false,
+        headerTitle: "",
         headerTitleStyle: styles.headerTitle,
         headerTintColor: colors.text.inverse,
         headerRight: () => (

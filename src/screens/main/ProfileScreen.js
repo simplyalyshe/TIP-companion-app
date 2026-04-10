@@ -33,6 +33,8 @@ export default function ProfileScreen({ navigation }) {
   const homeCampus = campusData[homeCampusKey];
   const profile = homeCampus.studentProfile;
   const avatarInitials = getInitials(profile.name);
+  const resolvedStudentId = studentId || profile.studentId;
+  const accessLabel = isCrossEnrollee ? "Cross-enrollee access" : "Home campus access";
 
   function signOut() {
     setStudentId("");
@@ -55,7 +57,10 @@ export default function ProfileScreen({ navigation }) {
     <AppScreen>
       <ScreenShell>
         <View style={styles.identityCard}>
-          <Text style={styles.eyebrow}>Profile</Text>
+          <View style={styles.identityHeader}>
+            <Text style={styles.eyebrow}>Profile</Text>
+            <View style={styles.identityRule} />
+          </View>
 
           <View style={styles.identityTop}>
             <View style={styles.avatarHalo}>
@@ -71,37 +76,48 @@ export default function ProfileScreen({ navigation }) {
             </View>
           </View>
 
-          <View style={styles.identityFooter}>
-            <View style={styles.identityBadge}>
-              <MaterialCommunityIcons name="account-school-outline" size={16} color={colors.text.primary} />
-              <Text style={styles.identityBadgeText}>{isCrossEnrollee ? "Cross-enrollee access" : "Home campus access"}</Text>
+          <View style={styles.factGrid}>
+            <View style={styles.factCard}>
+              <Text style={[styles.factLabel, styles.factLabelAccent]}>Student ID</Text>
+              <Text style={styles.factValue}>{resolvedStudentId}</Text>
             </View>
-            <Text style={styles.identityNote}>Student record and campus access</Text>
+            <View style={styles.factCard}>
+              <Text style={[styles.factLabel, styles.factLabelAccent]}>Year Level</Text>
+              <Text style={styles.factValue}>{profile.yearLevel}</Text>
+            </View>
+            <View style={styles.factCardWide}>
+              <Text style={[styles.factLabel, styles.factLabelAccent]}>Access Mode</Text>
+              <Text style={styles.factValue}>{accessLabel}</Text>
+            </View>
           </View>
         </View>
 
         <View style={styles.sectionCard}>
-          <Text style={styles.title}>Student Record</Text>
-          <DetailRow label="Student ID" value={studentId || profile.studentId} emphasize />
+          <View style={styles.sectionHeader}>
+            <View>
+              <Text style={styles.sectionEyebrow}>Student Record</Text>
+              <Text style={styles.title}>Academic Identity</Text>
+            </View>
+            <MaterialCommunityIcons name="card-account-details-outline" size={20} color={colors.accent.strong} />
+          </View>
+
+          <DetailRow label="Student ID" value={resolvedStudentId} emphasize variant="highlight" />
           <DetailRow label="Program" value={profile.program} />
           <DetailRow label="Year Level" value={profile.yearLevel} />
           <DetailRow label="Email" value={profile.email} isLast />
         </View>
 
-        <View style={styles.sectionCard}>
-          <Text style={styles.title}>Campus Access</Text>
-          <DetailRow label="Home Campus" value={homeCampus.name} />
-          <DetailRow label="Current Campus" value={branch.name} />
-          <DetailRow label="Cross-Enrollee Status" value={isCrossEnrollee ? "Enabled" : "Home campus only"} isLast />
-        </View>
-
-        <View style={styles.actionsSection}>
+        <View style={styles.utilityCard}>
+          <Text style={styles.utilityLabel}>Session Control</Text>
+          <Text style={styles.utilityBody}>Use sign out when you need to clear this device and return to campus selection.</Text>
           {isCrossEnrollee ? (
             <Pressable onPress={switchCampus} style={styles.secondaryButton}>
+              <MaterialCommunityIcons name="swap-horizontal" size={18} color={colors.text.primary} />
               <Text style={styles.secondaryButtonText}>Switch Campus</Text>
             </Pressable>
           ) : null}
           <Pressable onPress={signOut} style={styles.primaryButton}>
+            <MaterialCommunityIcons name="logout" size={18} color={colors.text.inverse} />
             <Text style={styles.primaryButtonText}>Sign Out</Text>
           </Pressable>
         </View>
@@ -117,12 +133,25 @@ const styles = StyleSheet.create({
     padding: spacing.lg,
     gap: spacing.md,
   },
+  identityHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    gap: spacing.md,
+  },
   eyebrow: {
     color: colors.accent.default,
     fontSize: typography.sizes.micro,
     fontWeight: "700",
     textTransform: "uppercase",
-    letterSpacing: 1,
+    letterSpacing: 1.1,
+  },
+  identityRule: {
+    flex: 1,
+    height: 3,
+    maxWidth: 88,
+    borderRadius: radii.pill,
+    backgroundColor: colors.signature.major,
   },
   identityTop: {
     flexDirection: "row",
@@ -130,16 +159,16 @@ const styles = StyleSheet.create({
     gap: spacing.md,
   },
   avatarHalo: {
-    width: 94,
-    height: 94,
+    width: 98,
+    height: 98,
     borderRadius: radii.pill,
-    backgroundColor: "rgba(242,194,48,0.18)",
+    backgroundColor: "rgba(242,194,48,0.16)",
     alignItems: "center",
     justifyContent: "center",
   },
   avatarShell: {
-    width: 76,
-    height: 76,
+    width: 78,
+    height: 78,
     borderRadius: radii.pill,
     backgroundColor: colors.bg.surface,
     borderWidth: 3,
@@ -174,27 +203,44 @@ const styles = StyleSheet.create({
     marginTop: spacing.xs,
     lineHeight: 19,
   },
-  identityFooter: {
+  factGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
     gap: spacing.sm,
   },
-  identityBadge: {
-    alignSelf: "flex-start",
-    flexDirection: "row",
-    alignItems: "center",
-    gap: spacing.xs,
-    backgroundColor: colors.accent.default,
-    borderRadius: radii.pill,
-    paddingHorizontal: spacing.sm,
-    paddingVertical: spacing.xs,
+  factCard: {
+    flex: 1,
+    minWidth: 120,
+    backgroundColor: "rgba(255,255,255,0.06)",
+    borderRadius: radii.md,
+    borderWidth: borders.hairline,
+    borderColor: colors.border.inverse,
+    padding: spacing.sm + 2,
   },
-  identityBadgeText: {
-    color: colors.text.primary,
-    fontSize: typography.sizes.meta,
-    fontWeight: "800",
+  factCardWide: {
+    width: "100%",
+    backgroundColor: "rgba(255,255,255,0.06)",
+    borderRadius: radii.md,
+    borderWidth: borders.hairline,
+    borderColor: colors.border.inverse,
+    padding: spacing.sm + 2,
   },
-  identityNote: {
-    color: "rgba(255,255,255,0.72)",
-    fontSize: typography.sizes.meta,
+  factLabel: {
+    color: "rgba(255,255,255,0.68)",
+    fontSize: typography.sizes.micro,
+    fontWeight: "700",
+    textTransform: "uppercase",
+    letterSpacing: 0.9,
+    marginBottom: spacing.xs,
+  },
+  factLabelAccent: {
+    color: colors.accent.default,
+  },
+  factValue: {
+    color: colors.text.inverse,
+    fontSize: typography.sizes.body,
+    fontWeight: "700",
+    lineHeight: 21,
   },
   sectionCard: {
     backgroundColor: colors.bg.surface,
@@ -203,34 +249,70 @@ const styles = StyleSheet.create({
     borderColor: colors.border.soft,
     padding: spacing.md,
   },
+  sectionHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    gap: spacing.sm,
+    marginBottom: spacing.sm,
+  },
+  sectionEyebrow: {
+    color: colors.text.accent,
+    fontSize: typography.sizes.micro,
+    fontWeight: "700",
+    textTransform: "uppercase",
+    letterSpacing: 1,
+    marginBottom: spacing.xs,
+  },
   title: {
     fontSize: typography.sizes.section,
     fontWeight: "800",
     color: colors.text.primary,
-    marginBottom: spacing.sm,
-  },
-  actionsSection: {
-    gap: spacing.sm,
-    paddingBottom: spacing.md,
   },
   secondaryButton: {
     backgroundColor: colors.bg.surface,
     borderRadius: radii.pill,
     borderWidth: borders.soft,
     borderColor: colors.border.strong,
-    paddingVertical: 15,
+    paddingVertical: 14,
     alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    gap: spacing.xs,
   },
   secondaryButtonText: {
     color: colors.text.primary,
     fontWeight: "700",
     fontSize: typography.sizes.body,
   },
+  utilityCard: {
+    backgroundColor: colors.bg.surface,
+    borderRadius: radii.md,
+    borderWidth: borders.soft,
+    borderColor: colors.border.soft,
+    padding: spacing.md,
+    gap: spacing.sm,
+  },
+  utilityLabel: {
+    color: colors.text.accent,
+    fontSize: typography.sizes.micro,
+    fontWeight: "700",
+    textTransform: "uppercase",
+    letterSpacing: 1,
+  },
+  utilityBody: {
+    color: colors.text.secondary,
+    fontSize: typography.sizes.body,
+    lineHeight: 22,
+  },
   primaryButton: {
     backgroundColor: colors.bg.inverse,
     borderRadius: radii.pill,
     paddingVertical: 15,
     alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    gap: spacing.xs,
   },
   primaryButtonText: {
     color: colors.text.inverse,
