@@ -8,7 +8,7 @@ export default function HeroBanner({ branch }) {
     <View style={styles.banner}>
       <View style={styles.rail} />
       <View style={styles.copy}>
-        <Text style={styles.kicker}>T.I.P. Campus Porta</Text>
+        <Text style={styles.kicker}>Home Campus</Text>
         <Text style={styles.title}>{branch.name}</Text>
         <Text style={styles.subtitle}>{branch.subtitle}</Text>
       </View>

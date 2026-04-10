@@ -77,14 +77,6 @@ export default function ProfileScreen({ navigation }) {
           </View>
 
           <View style={styles.factGrid}>
-            <View style={styles.factCard}>
-              <Text style={[styles.factLabel, styles.factLabelAccent]}>Student ID</Text>
-              <Text style={styles.factValue}>{resolvedStudentId}</Text>
-            </View>
-            <View style={styles.factCard}>
-              <Text style={[styles.factLabel, styles.factLabelAccent]}>Year Level</Text>
-              <Text style={styles.factValue}>{profile.yearLevel}</Text>
-            </View>
             <View style={styles.factCardWide}>
               <Text style={[styles.factLabel, styles.factLabelAccent]}>Access Mode</Text>
               <Text style={styles.factValue}>{accessLabel}</Text>
